@@ -46,7 +46,7 @@ def get_file_path(filename):
     return None
 
 # Cargar y reproducir música de fondo
-music_file = "Bad eding.mp3"
+music_file = "MusicaBackgruand.mp3"
 music_path = get_file_path(music_file)
 
 if music_path:
@@ -124,13 +124,13 @@ def load_image(path, alpha=True):
         return surf
 
 # Cargar todas las imágenes
-frog_img = load_image("delfin-version-frogge3r-main/imagenes/DELFIN.png")
+frog_img = load_image("delfin-version-frogge3r-main/imagenes/Delfin2o.png")
 car_img = load_image("delfin-version-frogge3r-main/imagenes/BARCO.png")
 contenedor_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
 log_img = load_image("delfin-version-frogge3r-main/imagenes/TRONCO.png")
 turtle_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
 home_frog_img = load_image("delfin-version-frogge3r-main/imagenes/MAR.png")
-background_img = load_image("delfin-version-frogge3r-main/imagenes/MAR.png", alpha=False)
+background_img = load_image("delfin-version-frogge3r-main/imagenes/oceano.png", alpha=False)
 
 # Redimensionar background si es necesario
 background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
