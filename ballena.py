@@ -11,7 +11,7 @@ pygame.display.set_caption("DEFIN — Pygame")
 pygame.mixer.init()
 
 TILE = 48
-COLS = 13
+COLS = 23
 LANE_LAYOUT = [
     'HOMES',
     'RIVER','RIVER','RIVER','RIVER','RIVER',
@@ -123,7 +123,7 @@ def load_image(path, alpha=True):
             surf.fill((255, 0, 255))  # Magenta para imágenes normales
         return surf
 
-# Cargar todas las imágenes
+# Cargar todas las imgenes
 frog_img = load_image("delfin-version-frogge3r-main/imagenes/Delfin2o.png")
 car_img = load_image("delfin-version-frogge3r-main/imagenes/BARCO.png")
 contenedor_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
@@ -275,7 +275,7 @@ class Game:
     def __init__(self):
         self.level = 1
         self.score = 0
-        self.lives = 5
+        self.lives = 500
         self.home_occupied = [False]*5
         self.state = 'PLAYING'
         self.time_left = TIME_PER_ATTEMPT
