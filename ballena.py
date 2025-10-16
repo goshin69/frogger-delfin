@@ -10,8 +10,8 @@ pygame.display.set_caption("DEFIN — Pygame")
 # Inicializar el mezclador de sonido
 pygame.mixer.init()
 
-TILE = 48
-COLS = 23
+TILE = 51
+COLS = 30
 LANE_LAYOUT = [
     'HOMES',
     'RIVER','RIVER','RIVER','RIVER','RIVER',
@@ -92,7 +92,7 @@ POINT_PER_HOME    = 200
 TIME_PER_ATTEMPT = 60.0
 
 # Ranuras de Hogar
-HOME_COLS = [1, 4, 6, 8, 11]
+HOME_COLS = [9, 12, 15, 18, 21]
 
 # =========================
 # Cargar imágenes (con manejo de errores)
@@ -125,7 +125,7 @@ def load_image(path, alpha=True):
 
 # Cargar todas las imgenes
 frog_img = load_image("delfin-version-frogge3r-main/imagenes/Delfin2o.png")
-car_img = load_image("delfin-version-frogge3r-main/imagenes/BARCO.png")
+car_img = load_image("delfin-version-frogge3r-main/imagenes/Basura.png")
 contenedor_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
 log_img = load_image("delfin-version-frogge3r-main/imagenes/TRONCO.png")
 turtle_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
@@ -175,7 +175,7 @@ class Turtle(MovingEntity):
         super().__init__(rect, vx, img)
         self.period_total   = 6.0
         self.blink_duration = 0.8
-        self.submerge_time  = 1.4
+        self.submerge_time  = 0.1
         self.phase = random.uniform(0, self.period_total)
         self.t = 0.0
 
@@ -295,18 +295,18 @@ class Game:
         self.vehicles.clear()
         self.platforms.clear()
         self.spawners.clear()
-        level_scale = 1.0 + (self.level-1)*0.12
+        level_scale = 0.9 + (self.level-1)*0.12
         for r, kind in enumerate(LANE_LAYOUT):
             if kind == 'ROAD':
                 direction = -1 if (r % 2 == 0) else 1
-                speed_range = (50, 120)
+                speed_range = (40, 120)
                 size_tiles  = (2, 3)
-                gap_range   = (5, 2.2)
+                gap_range   = (9, 2.2)
                 self.spawners.append(Spawner(r, 'VEHICLE', direction, speed_range, size_tiles, gap_range, level_scale))
             elif kind == 'RIVER':
                 direction = 1 if (r % 2 == 0) else -1
                 speed_range = (80, 150)
-                gap_range   = (1.3, 2.5)
+                gap_range   = (1.4, 2.5)
                 if r % 3 == 0:
                     size_tiles = (1, 2)
                     self.spawners.append(Spawner(r, 'TURTLE', direction, speed_range, size_tiles, gap_range, level_scale))
@@ -486,7 +486,7 @@ class Game:
             shade = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
             shade.fill((0,0,0,180))
             surf.blit(shade,(0,0))
-            txt1 = FONT2.render("GAME OVER", True, RED)
+            txt1 = FONT2.render("vuelve a intentar", True, RED)
             txt2 = FONT.render("Pulsa R para reiniciar", True, WHITE)
             txt3 = FONT.render(f"Puntuación final: {self.score}", True, WHITE)
             surf.blit(txt1, (WIDTH//2-txt1.get_width()//2, HEIGHT//2-60))
