@@ -1,14 +1,12 @@
-# delfin-version-frogger
-
-¡Esa es una idea fantástica para un juego! Basado en tu concepto, aquí tienes una descripción que puedes usar:
+# DOLPHER "SALVEMOS EL MAR"
 
 Descripción:
 
-"Embárcate en una emocionante aventura submarina donde tu misión es vital: proteger el mar de la contaminación y el peligro. En [Nombre del juego], tomas el rol de un valiente delfín (o un personaje que trabaja junto a un delfín), ágil e inteligente, que es la clave para la conservación del ecosistema marino.
+"Embárcate en una emocionante aventura submarina donde tu misión es vital: proteger el mar de la contaminación y el peligro. En Dolpher, tomas el rol de un valiente delfín (o un personaje que trabaja junto a un delfín), ágil e inteligente, que es la clave para la conservación del ecosistema marino.
 
 Características principales:
 
-Juega como un Delfín (o con tu compañero Delfín): Navega por vibrantes arrecifes de coral, misteriosas profundidades y vastas aguas abiertas. Usa las habilidades únicas del delfín, como el sonar o la velocidad, para interactuar con el entorno.
+Juega como un Delfín: Navega por vibrantes arrecifes de coral, misteriosas profundidades y vastas aguas abiertas. Usa las habilidades únicas del delfín, como el sonar o la velocidad, para interactuar con el entorno.
 
 Misiones de Conservación: Enfrenta desafíos reales como limpiar la basura y plásticos, rescatar animales marinos atrapados en redes de pesca o educar a otros sobre los peligros de la contaminación.
 
