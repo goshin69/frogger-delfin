@@ -15,3 +15,31 @@ Un Océano en Peligro: Explora un mundo hermoso pero amenazado. Cada acción que
 Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ecología mientras te diviertes salvando el planeta azul.
 
 ¡El mar te necesita! Con la ayuda de tu delfín, conviértete en el guardián que el océano merece."
+
+                                      ░░▓▓██                                                
+                                    ▓▓░░  ▓▓                                                
+                                ▒▒      ▓▓                                                  
+                              ▓▓      ▓▓                                                    
+                      ░░▒▒██▒▒        ██▓▓░░                                                
+            ▓▓██░░                            ▓▓▓▓                                          
+          ██                                      ▒▒▒▒                                      
+        ██                                            ▒▒░░                                  
+      ▓▓                                                  ▓▓                                
+      ▒▒                                                    ▒▒                              
+    ▓▓      ██                                                ▒▒░░                          
+▒▒      ░░▓▓                                                      ▒▒░░                      
+▓▓▒▒▒▒░░░░░░      ░░▒▒▒▒                                              ▒▒                    
+              ░░░░▒▒████      ▒▒░░                ▒▒▒▒                  ▒▒                  
+                      ▓▓▓▓      ▓▓██▒▒▒▒▒▒████▓▓▓▓▓▓██░░  ▓▓              ▒▒                
+                        ▒▒▒▒    ░░                        ▒▒▒▒▓▓░░          ░░              
+                          ▒▒▓▓                                ░░████▒▒      ░░░░            
+                            ▓▓██░░▓▓                                ▒▒██      ░░            
+                                ░░▒▒                                    ██      ▓▓          
+                                                                          ▓▓    ░░██        
+                                                                            ▓▓  ░░    ▒▒    
+                                                                          ██  ▒▒▓▓  ░░  ▒▒  
+                                                                        ░░  ░░  ██░░░░    ▓▓
+                                                                        ▒▒  ▓▓  ▒▒  ░░▓▓▓▓██
+                                                                        ░░  ▒▒██          ██
+                                                                            ██▒▒            
+                                                                          ░░██              
