@@ -1,6 +1,6 @@
 import pygame, sys, os, random
 pygame.init()
-pygame.display.set_caption("Dopher — Frogger Ecológico")
+pygame.display.set_caption("Cangrejo Recolector — Dolher")
 
 # ======== CONFIGURACIÓN ========
 ANCHO, ALTO = 832, 640
@@ -20,15 +20,16 @@ COLS = 13
 ROWS = len(LANE_LAYOUT)
 
 # ======== COLORES ========
-AGUA = (198,166,100)
-ARENA = (119,197,214)
+AGUA = (60,130,200)
+ARENA = (240,220,160)
 ORILLA = (230,240,200)
-META = (198,166,100)
+META = (50,100,150)
 NEGRO = (0,0,0)
 BLANCO = (255,255,255)
 VERDE = (70,200,90)
 ROJO = (200,60,60)
-AZUL = (119,197,214)
+AZUL = (50,100,255)
+GRIS = (100,100,100)
 
 # ======== IMÁGENES ========
 def load_img(name, w=TILE, h=TILE, color=(150,150,150)):
@@ -40,10 +41,10 @@ def load_img(name, w=TILE, h=TILE, color=(150,150,150)):
     pygame.draw.rect(s, (255,255,255), s.get_rect(), 2)
     return s
 
-img_cangrejo = load_img("cancrejo.png", 50, 50, (200,50,50))
+img_cangrejo = load_img("cangrejo.png", 50, 50, (200,50,50))
 img_basura   = load_img("basura.png", 48, 48, (100,100,100))
 img_peligro  = load_img("medusa.png", 64, 64, (120,60,160))
-img_meta     = load_img("basura.png", 64, 64, (200,100,50))
+img_meta     = load_img("coral.png", 64, 64, (200,100,50))
 
 # ======== CLASES ========
 class Cangrejo(pygame.sprite.Sprite):
@@ -105,23 +106,27 @@ def draw_background():
 def draw_hud():
     font = pygame.font.SysFont(None, 28)
     t1 = font.render(f"Vidas: {jugador.vidas}", True, NEGRO)
-    t2 = font.render(f"Basura: {'✅' if jugador.tiene_basura else '❌'}", True, NEGRO)
+    t2 = font.render(f"Basura: {' ' if jugador.tiene_basura else ' '}", True, NEGRO)
     t3 = font.render(f"Limpiezas: {sum(ocupadas)}/5", True, NEGRO)
+    t4 = font.render(f"Puntaje: {puntaje}", True, NEGRO)
     screen.blit(t1, (10,10))
     screen.blit(t2, (10,35))
     screen.blit(t3, (10,60))
+    screen.blit(t4, (10,85))
 
 def reset_player():
     jugador.rect.center = (ANCHO//2, ALTO-60)
     jugador.tiene_basura = False
 
 def reiniciar_nivel():
+    global puntaje
     reset_player()
     jugador.vidas = 3
+    puntaje = 0
     for i in range(5): ocupadas[i] = False
     crear_basura_y_peligros()
 
-# ======== Menu de pausa ========
+# ======== MENÚ DE PAUSA ========
 def menu_pausa():
     opciones = ["Continuar", "Reiniciar", "Salir"]
     seleccion = 0
@@ -154,18 +159,29 @@ def menu_pausa():
         pygame.display.flip()
         clock.tick(30)
 
+# ======== PANTALLAS ========
+def pantalla_mensaje(texto, subtexto, color=BLANCO):
+    font1 = pygame.font.SysFont(None, 64)
+    font2 = pygame.font.SysFont(None, 36)
+    s = pygame.Surface((ANCHO, ALTO)); s.fill(NEGRO)
+    screen.blit(s, (0,0))
+    t1 = font1.render(texto, True, color)
+    t2 = font2.render(subtexto, True, BLANCO)
+    screen.blit(t1, (ANCHO//2 - t1.get_width()//2, ALTO//2 - 40))
+    screen.blit(t2, (ANCHO//2 - t2.get_width()//2, ALTO//2 + 20))
+    pygame.display.flip()
+
 # ======== OBJETOS INICIALES ========
 jugador = Cangrejo()
 player_group = pygame.sprite.Group(jugador)
 basura_group = pygame.sprite.Group()
 peligro_group = pygame.sprite.Group()
-
 meta_rects = [pygame.Rect(i*(ANCHO//5)+30, 0, TILE, TILE) for i in range(5)]
 ocupadas = [False]*5
+puntaje = 0
 crear_basura_y_peligros()
 
 # ======== BUCLE PRINCIPAL ========
-pausado = False
 while True:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -175,44 +191,45 @@ while True:
             if e.key == pygame.K_DOWN: jugador.move(0,1)
             if e.key == pygame.K_LEFT: jugador.move(-1,0)
             if e.key == pygame.K_RIGHT: jugador.move(1,0)
-            if e.key == pygame.K_p:  # PAUSA
+            if e.key == pygame.K_p:
                 menu_pausa()
 
     peligro_group.update()
 
-    # Colisiones con basura
+    # === COLISIONES ===
+    # Recolectar basura
     if not jugador.tiene_basura:
         hit = pygame.sprite.spritecollideany(jugador, basura_group)
         if hit:
             jugador.tiene_basura = True
             basura_group.remove(hit)
+            puntaje += 50
 
-    # Colisiones con peligros
+    # Golpe con peligro
     if pygame.sprite.spritecollideany(jugador, peligro_group):
         jugador.vidas -= 1
+        puntaje = max(0, puntaje - 100)
         reset_player()
         if jugador.vidas <= 0:
+            pantalla_mensaje("GAME OVER ☠️", f"Puntaje final: {puntaje}", ROJO)
+            pygame.time.wait(4000)
             reiniciar_nivel()
 
-    # Llegar a meta con basura
+    # Entregar basura
     for i, rect in enumerate(meta_rects):
         if jugador.tiene_basura and not ocupadas[i] and jugador.rect.colliderect(rect):
             ocupadas[i] = True
             jugador.tiene_basura = False
+            puntaje += 200
             reset_player()
 
-    # Verificar victoria
+    # Victoria
     if all(ocupadas):
-        font = pygame.font.SysFont(None, 64)
-        screen.fill(NEGRO)
-        text = font.render("¡Mar Limpio!" \
-        " siguiente nivel!", True, BLANCO)
-        screen.blit(text, (ANCHO//3, ALTO//2))
-        pygame.display.flip()
+        pantalla_mensaje("¡MAR LIMPIO!", f"Tu puntaje: {puntaje}", VERDE)
         pygame.time.wait(4000)
         reiniciar_nivel()
 
-    # ======== DIBUJO ========
+    # === DIBUJO ===
     draw_background()
     basura_group.draw(screen)
     peligro_group.draw(screen)
