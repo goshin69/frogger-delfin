@@ -16,4 +16,4 @@ Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ec
 
 ¡El mar te necesita! Con la ayuda de tu delfín, conviértete en el guardián que el océano merece."
 
-                          ![delfin](https://github.com/user-attachments/assets/92dae89a-2c7a-45b8-a69b-7b1ee72f58e6)
+                        ![image alt ](https://github.com/goshin69/frogger-delfin/blob/a4a7ed754bce9a3db95c404d099c8d8a8b1e250f/delfin%20parpadeando.gif)
