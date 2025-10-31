@@ -7,17 +7,20 @@ Descripción:
 Características principales:
 
 Juega como un Delfín: Navega por vibrantes arrecifes de coral, misteriosas profundidades y vastas aguas abiertas. Usa las habilidades únicas del delfín, como el sonar o la velocidad, para interactuar con el entorno.
-
 Misiones de Conservación: Enfrenta desafíos reales como limpiar la basura y plásticos, rescatar animales marinos atrapados en redes de pesca o educar a otros sobre los peligros de la contaminación.
-
 Un Océano en Peligro: Explora un mundo hermoso pero amenazado. Cada acción que realices, desde recoger un desecho hasta liberar a una tortuga, tiene un impacto directo en la salud del océano.
-
 Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ecología mientras te diviertes salvando el planeta azul.
-
 ¡El mar te necesita! Con la ayuda de tu delfín, conviértete en el guardián que el océano merece."
+
+El primer nivil 
+Nuestro perdonaje principal y mascota oficial de nuesetro  debe llegar a un lugar seguro lejos de la contamitaacion donde puede nadar libre sin basura o petorlio sin lastimalo 
 
 ![Delfín parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/main/delfin%20parpadeando.gif)
 
 
+Para sungundo nivel elijos un cangrejo para representar de las playas tiene busura alredor donde viven por eso recoje basura porque estos esuciando su lugar 
+ 
+![Cangrejo parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif)
 
-                        ![Image](https://github.com/goshin69/frogger-delfin/blob/a4a7ed754bce9a3db95c404d099c8d8a8b1e250f/delfin%20parpadeando.gif)
+
+                    
