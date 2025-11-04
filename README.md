@@ -22,6 +22,8 @@ En el segundo nivel, el protagonista es un cangrejo que trabaja duro y tiene muc
 ![Cangrejo parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif)
 
 la sistema de vida 
+2 dificulta direntes una Dificil y Facil
+
 ![Full Vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/full%20vida.gif)
 ![4 de vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/4%20de%20vida.gif)
 ![2 de vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/2%20de%20vida.gif)
