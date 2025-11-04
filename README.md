@@ -13,6 +13,7 @@ Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ec
 ¡El mar te necesita! Con la ayuda de tu delfín, conviértete en el guardián que el océano merece."
 
 Nuestro menu principal
+
 ![Fondo del Menú](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)
 
 Nivel 1
