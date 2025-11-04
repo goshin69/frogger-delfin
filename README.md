@@ -21,6 +21,14 @@ Nivel 2
 En el segundo nivel, el protagonista es un cangrejo que trabaja duro y tiene mucha determinación. Representa la vida en la playa. Su casa está llena de basura, lo que pone en riesgo su supervivencia. Con mucho esfuerzo, el cangrejo recoge los residuos para limpiar su entorno. Quiere mostrar que hasta las acciones más pequeñas pueden ayudar a cuidar el planeta. 
 ![Cangrejo parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif)
 
+la sistema de vida 
+![Full Vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/full%20vida.gif)
+![4 de vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/4%20de%20vida.gif)
+![2 de vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/2%20de%20vida.gif)
+![0 de vida](https://raw.githubusercontent.com/goshin69/frogger-delfin/70590a53b03a82267169b81961a96dcd5e3e75ec/vida-dificil/0%20de%20vida.gif)
 
-
+El personaje comienza con máxima vida, representada por un indicador que muestra “4 de vida” (o el nivel más alto que definas).
+Cada vez que enfrenta un obstáculo grave (basura, contaminación, colisión, pérdida de tiempo, fallo de misión) la vida se reduce, quizás de “4 → 3” “3 → 2” “2 → 1”.
+Cuando la vida llega a “0 de vida” (como el GIF que acabas de enlazar), significa que el personaje ya no puede continuar: se ha quedado sin recursos, su entorno ha sido demasiado dañado o ha sufrido demasiado impacto por la contaminación. Esto puede conducir a un Game Over, a reiniciar el nivel o a una penalización más severa.
+Este sistema de vida refuerza el mensaje ambiental: cada impacto negativo (basura, contaminación) reduce la “vitalidad” del personaje y del ecosistema que representa. Recuperar vida —o no perderla— equivale a proteger el entorno, evitar desechos, limpiar y encontrar un lugar seguro para nadar/liberar al personaje.
                     
