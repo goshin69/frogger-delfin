@@ -12,10 +12,12 @@ Un Océano en Peligro: Explora un mundo hermoso pero amenazado. Cada acción que
 Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ecología mientras te diviertes salvando el planeta azul.
 ¡El mar te necesita! Con la ayuda de tu delfín, conviértete en el guardián que el océano merece."
 
+Nuestro menu principal
+![Fondo del Menú](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)
+
 Nivel 1
 Nuestro personaje principal y mascota oficial es un delfín valiente que tiene que llegar a un lugar seguro, lejos de la contaminación. Su misión es salir de las aguas sucias y llenas de obstáculos para poder nadar libremente en un mar limpio, mostrando que aún es posible recuperar la pureza del océano si cuidamos el medio ambiente.
 
-![Océano](https://raw.githubusercontent.com/goshin69/frogger-delfin/c090e20626a0b6e48d8ac567dd54817e991685f8/oceano.png)
 ![Delfín parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/main/delfin%20parpadeando.gif)
 
 Nivel 2
