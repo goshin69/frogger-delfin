@@ -38,3 +38,6 @@ Cada vez que enfrenta un obstáculo grave (basura, contaminación, colisión, p�
 Cuando la vida llega a “0 de vida” (como el GIF que acabas de enlazar), significa que el personaje ya no puede continuar: se ha quedado sin recursos, su entorno ha sido demasiado dañado o ha sufrido demasiado impacto por la contaminación. Esto puede conducir a un Game Over, a reiniciar el nivel o a una penalización más severa.
 Este sistema de vida refuerza el mensaje ambiental: cada impacto negativo (basura, contaminación) reduce la “vitalidad” del personaje y del ecosistema que representa. Recuperar vida —o no perderla— equivale a proteger el entorno, evitar desechos, limpiar y encontrar un lugar seguro para nadar/liberar al personaje.
                     
+![Salvavidas](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/salvavidas.png)
+![Petróleo](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/petroleo1.png)
+![Bote de basura acostado](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/bote%20de%20basura%20acostado.png)
