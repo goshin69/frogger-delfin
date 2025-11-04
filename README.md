@@ -41,3 +41,11 @@ Este sistema de vida refuerza el mensaje ambiental: cada impacto negativo (basur
 ![Salvavidas](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/salvavidas.png)
 ![Petróleo](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/petroleo1.png)
 ![Bote de basura acostado](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/bote%20de%20basura%20acostado.png)
+
+El fondo del océano muestra el contraste entre la belleza marina y la contaminación.
+Cada nivel refleja un ecosistema dañado por residuos, aceites y desperdicios.
+El jugador aprende que mantener el mar limpio es parte de la misión del juego.
+
+Otaculos de 3rd Nivel
+![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
+
