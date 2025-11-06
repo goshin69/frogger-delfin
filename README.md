@@ -49,6 +49,10 @@ El fondo del océano muestra el contraste entre la belleza marina y la contamina
 Cada nivel refleja un ecosistema dañado por residuos, aceites y desperdicios.
 El jugador aprende que mantener el mar limpio es parte de la misión del juego.
 
+Enemigo de Nivel 3
+![Gaviota](https://raw.githubusercontent.com/goshin69/frogger-delfin/9d65759e2fb46d6adecbba8245fde990cde90c7e/gaviota_izq.png)
+
+
 Otaculos de 3rd Nivel
 ![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
 
