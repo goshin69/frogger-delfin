@@ -6,8 +6,8 @@ pygame.mixer.init()
 # =====================
 # Cargar sonidos
 # =====================
-victoria = pygame.mixer.Sound("delfin-version-frogger-main\delfin-version-frogger-main\ballena.py")
-gameover = pygame.mixer.Sound("delfin-version-frogger-main/sonidos/gameover.wav")
+victoria = pygame.mixer.Sound("Sounds/victoria.wav")
+gameover = pygame.mixer.Sound("Sounds/gameover.wav")
 salto    = pygame.mixer.Sound("delfin-version-frogger-main/sonidos/salto.wav")
 
 # Ajustar volúmenes (0.0 a 1.0)

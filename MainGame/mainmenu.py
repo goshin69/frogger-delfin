@@ -24,7 +24,7 @@ try:
     background_image = pygame.transform.smoothscale(_img, (ANCHO, ALTO))    
 except Exception as e:
     # No detener la ejecución si no se encuentra la imagen; se usará un color de fondo
-    print(f"No se pudo cargar la imagen de fondo '{Ruta_Imagen_Fondo}': {e}")
+    print(f"No se pudo cargar la imagen de fondo. '{Ruta_Imagen_Fondo}': {e}")
 
 
 class Button:
@@ -54,35 +54,26 @@ class Button:
         mouse_pos = pygame.mouse.get_pos()
         hovered = self.button.collidepoint(mouse_pos)
         if hovered and self.hover_image:
-            # centrar la imagen hover sobre el área del botón
             img_rect = self.hover_image.get_rect()
             img_rect.center = self.button.center
             screen.blit(self.hover_image, img_rect.topleft)
             return
         if self.image:
-            # dibujar la imagen del botón centrada sobre el área del botón (sin escalar)
             img_rect = self.image.get_rect()
             img_rect.center = self.button.center
             screen.blit(self.image, img_rect.topleft)
         else:
-            # No dibujar imágenes de botones (el fondo ya contiene los botones).
-            # Solo mostrar un sutil overlay y borde cuando se hace hover para dar feedback.
             if hovered:
-                # overlay semitransparente
                 overlay = pygame.Surface((self.size[0], self.size[1]), pygame.SRCALPHA)
-                overlay.fill((255, 255, 255, 40))  # blanco muy translúcido
+                overlay.fill((255, 255, 255, 40))
                 screen.blit(overlay, (self.pos[0], self.pos[1]))
-                # borde de destaque
                 pygame.draw.rect(screen, (255, 215, 0), self.button, 3, 5)
     def is_clicked(self, event):
-        """Detecta si el botón fue pulsado usando un evento MOUSEBUTTONDOWN."""
         return event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.button.collidepoint(event.pos)
 
 
 
 def draw_menu():
-    # No cargar PNGs para los botones; el fondo ya tiene los gráficos.
-    # Crear hitboxes en las posiciones definidas y usar feedback de hover.
     btn1 = Button('JUGAR', (435, 365))
     btn2 = Button('NIVELES', (435, 428))
     btn3 = Button('OPCIONES', (435, 491))
@@ -101,7 +92,6 @@ def draw_menu():
 run = True
 game_proc = None
 while run:
-    # Dibujar fondo: imagen si está disponible, si no usar color
     if background_image:
         screen.blit(background_image, (0, 0))
     else:
@@ -129,9 +119,18 @@ while run:
                         else:
                             print("El juego se está ejecutando.")
                     except Exception as e:
-                        print(f"No se pudo lanzar dolpher.py: {e}")
+                        print(f"error: {e}")
                 elif buttons[1].is_clicked(event):
-                    command = 2
+                    # Lanzar el menú de niveles y cerrar el menú principal
+                    try:
+                        niveles_path = os.path.join(os.path.dirname(__file__), "Niveles.py")
+                        niveles_path = os.path.abspath(niveles_path)
+                        pygame.quit()  # Cerrar el menú principal
+                        subprocess.run([sys.executable, niveles_path])  # Ejecutar Niveles.py y esperar a que termine
+                        run = False  # Asegurar que el bucle principal termine
+                        sys.exit()  # Salir completamente
+                    except Exception as e:
+                        print(f"No se pudo lanzar Niveles.py: {e}")
                 elif buttons[2].is_clicked(event):
                     command = 3
                 elif buttons[3].is_clicked(event):

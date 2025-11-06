@@ -60,3 +60,4 @@ Enemigo de Nivel 3
 Obstaculos del 3er Nivel
 ![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
 
+IMPORTANTE: Para ejecutar el juego se necesita la versión 3.11 de python, ya que las más avanzadas tienen problemas de compatibilidad.

@@ -1,0 +1,2 @@
+Run the game with this code to avoid incompatibility.
+& "C:\Program Files\Python311\python.exe" "path/to/file.py"
