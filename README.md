@@ -51,12 +51,12 @@ El jugador aprende que mantener el mar limpio es parte de la misión del juego.
 
 Enemigo de Nivel 3
 <h1 align="center" style="font-size:60px; color:#00bfff; text-shadow: 3px 3px #003366;">
-🐦 PAJARO!!!
+🐦 Pajaros!
 </h1>
 ![Gaviota](https://raw.githubusercontent.com/goshin69/frogger-delfin/9d65759e2fb46d6adecbba8245fde990cde90c7e/gaviota_izq.png)
 
 
 
-Otaculos de 3rd Nivel
+Obstaculos del 3er Nivel
 ![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
 
