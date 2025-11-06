@@ -4,15 +4,36 @@ import os
 import runpy
 import subprocess
 
-pygame.init()
-
 # Configuración básica
-WIDTH, HEIGHT = 640, 480
+ANCHO = 1366
+ALTO = 768
 BG_COLOR = (30, 30, 30)
 BTN_COLOR = (70, 130, 180)
 BTN_HOVER = (100, 160, 210)
 TEXT_COLOR = (255, 255, 255)
 FPS = 60
+
+# Inicializar pygame y configurar la pantalla
+pygame.init()
+screen = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Seleccionar Nivel")
+
+# Cargar imagen de fondo
+# Ruta relativa desde este archivo hacia la carpeta Imgs
+Ruta_Imagen_Fondo = os.path.join(os.path.dirname(__file__), "..", "Imgs", "MenuNoBotones.png")
+background_image = None
+
+if os.path.exists(Ruta_Imagen_Fondo):
+    try:
+        _img = pygame.image.load(Ruta_Imagen_Fondo)
+        if _img:
+            _img = _img.convert_alpha()
+            background_image = pygame.transform.smoothscale(_img, (ANCHO, ALTO))
+            print(f"Imagen de fondo cargada exitosamente: {Ruta_Imagen_Fondo}")
+    except Exception as e:
+        print(f"Error al cargar la imagen de fondo '{Ruta_Imagen_Fondo}': {e}")
+else:
+    print(f"No se encontró el archivo de imagen: {Ruta_Imagen_Fondo}")
 
 class Button:
     def __init__(self, rect, text, font):
@@ -114,8 +135,6 @@ def _run_nivel2():
         pass
 
 def seleccionar_nivel():
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Seleccionar Nivel")
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 36)
     title_font = pygame.font.SysFont(None, 48)
@@ -123,13 +142,13 @@ def seleccionar_nivel():
     # Botones: ajustar cantidad/etiquetas según necesidad
     btn_w, btn_h = 220, 60
     spacing = 20
-    start_y = (HEIGHT - (3 * btn_h + 2 * spacing + btn_h + spacing)) // 2
+    start_y = (ALTO - (3 * btn_h + 2 * spacing + btn_h + spacing)) // 2
 
     botones = [
-        Button(((WIDTH - btn_w)//2, start_y + i*(btn_h+spacing), btn_w, btn_h), f"Nivel {i+1}", font)
+        Button(((ANCHO - btn_w)//2, start_y + i*(btn_h+spacing), btn_w, btn_h), f"Nivel {i+1}", font)
         for i in range(3)
     ]
-    btn_atras = Button(((WIDTH - btn_w)//2, start_y + 3*(btn_h+spacing), btn_w, btn_h), "Atrás", font)
+    btn_atras = Button(((ANCHO - btn_w)//2, start_y + 3*(btn_h+spacing), btn_w, btn_h), "Atrás", font)
 
     running = True
     while running:
@@ -157,9 +176,12 @@ def seleccionar_nivel():
                 _run_mainmenu()
                 return None
 
-        screen.fill(BG_COLOR)
+        if background_image:
+            screen.blit(background_image, (0, 0))
+        else:
+            screen.fill(BG_COLOR)
         title = title_font.render("Selecciona un nivel", True, TEXT_COLOR)
-        screen.blit(title, title.get_rect(center=(WIDTH//2, 80)))
+        screen.blit(title, title.get_rect(center=(ANCHO//2, 80)))
 
         for b in botones:
             b.draw(screen, mouse_pos)
@@ -169,6 +191,10 @@ def seleccionar_nivel():
         clock.tick(FPS)
 
 if __name__ == "__main__":
+    nivel_seleccionado = seleccionar_nivel()
+    print(f"Nivel seleccionado: {nivel_seleccionado}")
+    pygame.quit()
+    sys.exit()
     seleccionado = seleccionar_nivel()
     print("Nivel seleccionado:", seleccionado)
     pygame.quit()
