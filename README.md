@@ -50,7 +50,7 @@ El fondo del océano muestra el contraste entre la belleza marina y la contamina
 Cada nivel refleja un ecosistema dañado por residuos, aceites y desperdicios.
 El jugador aprende que mantener el mar limpio es parte de la misión del juego.
 
-Enemigo de Nivel 3
+Enemigo de Nivel 2
 <h1 align="center" style="font-size:60px; color:#00bfff; text-shadow: 3px 3px #003366;">
 🐦 Pajaros!
 </h1>
@@ -58,7 +58,7 @@ Enemigo de Nivel 3
 
 
 Nivel 3
-El buzo es un valiente rescatista marino cuya misión es salvar a los animales acuáticos que se encuentran atrapados en áreas contaminadas y llevarlos a un lugar seguro en el barco de rescate. En medio de corrientes peligrosas, derrames de petróleo y basura flotante, el buzo tiene que moverse con rapidez y precisión para liberar a estas criaturas marinas sin desperdiciar energía ni tiempo
+El buzo es un valiente rescatista marino cuya misión es salvar a los animales acuáticos que se encuentran atrapados en áreas contaminadas y llevarlos a un lugar seguro en el barco de rescate. En medio de corrientes peligrosas, derrames de petróleo y basura flotante, el buzo tiene que moverse con rapidez y precisión para liberar a estas criaturas marinas sin desperdiciar energía ni tiempo.
 <p align="center">
   <img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/buzo_arriba.png" width="120" alt="Buzo del juego">
 </p>
