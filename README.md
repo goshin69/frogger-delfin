@@ -59,7 +59,10 @@ Enemigo de Nivel 3
 
 Nivel 3
 UN buzo debe salvar animales acuaticos 
-![Buzo](https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/buzo_arriba.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/buzo_arriba.png" width="120" alt="Buzo del juego">
+</p>
+
 
 Obstaculos del 3er Nivel
 ![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
