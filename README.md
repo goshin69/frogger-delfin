@@ -21,6 +21,7 @@ Nuestro personaje principal y mascota oficial es un delfín que tiene que llegar
 
 ![Delfín parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/main/delfin%20parpadeando.gif)
 
+
 Nivel 2
 En el segundo nivel, el protagonista es un cangrejo que trabaja duro y tiene mucha determinación. Representa la vida en la playa. Su hogar está llena de basura, lo que pone en riesgo su supervivencia. Con mucho esfuerzo, el cangrejo recoge los residuos para limpiar su entorno. Quiere mostrar que hasta las acciones más pequeñas pueden ayudar a cuidar el planeta. 
 ![Cangrejo parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif)
