@@ -58,7 +58,7 @@ Enemigo de Nivel 3
 
 
 Nivel 3
-UN buzo debe salvar animales acuaticos 
+El buzo es un valiente rescatista marino cuya misión es salvar a los animales acuáticos que se encuentran atrapados en áreas contaminadas y llevarlos a un lugar seguro en el barco de rescate. En medio de corrientes peligrosas, derrames de petróleo y basura flotante, el buzo tiene que moverse con rapidez y precisión para liberar a estas criaturas marinas sin desperdiciar energía ni tiempo
 <p align="center">
   <img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/buzo_arriba.png" width="120" alt="Buzo del juego">
 </p>
@@ -66,5 +66,8 @@ UN buzo debe salvar animales acuaticos
 
 Obstaculos del 3er Nivel
 ![Barco](https://raw.githubusercontent.com/goshin69/frogger-delfin/39e9dd52bb9b7bfdbd7427a6163b9c44d3cfe07c/BARCO.png)
+![Bote Blanco](https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/boteblanco.png)
+![Bote1](https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/Bote1.png)
+
 
 IMPORTANTE: Para ejecutar el juego se necesita la versión 3.11 de python, ya que las más avanzadas tienen problemas de compatibilidad.
