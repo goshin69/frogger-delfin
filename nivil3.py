@@ -91,11 +91,11 @@ def cargar_fondo():
 
 fondo = cargar_fondo()
 
-# ======== CARGAR IMÁGENES DE ANIMALES Y CUEVA ========
+# ======== CARGAR IMAGENES DE ANIMALES Y CUEVA ========
 img_buzo = cargar_imagen("buzo_abajo.png", TILE, TILE, (50, 150, 255))
 img_barco = cargar_imagen("barco.png", 120, 60, (100, 100, 100))
 
-# Cargar imágenes de todos los animales
+# Cargar imagenes de todos los animales
 img_tortuga = cargar_imagen("tortuga atrapada.png", 45, 35, (100, 200, 100))
 img_delfin = cargar_imagen("delfin atrapado.png", 50, 30, (150, 200, 255))
 img_pez = cargar_imagen("pescado atrapado.png", 40, 25, (255, 200, 50))
@@ -122,7 +122,7 @@ class Buzo(pygame.sprite.Sprite):
         self.hitbox = pygame.Rect(0, 0, TILE * 0.7, TILE * 0.7)
         self.hitbox.center = self.rect.center
         
-        self.vidas = 3
+        self.vidas = 5
         self.lleva_animal = None
         self.puntaje = 0
         self.invulnerable = False
@@ -420,7 +420,7 @@ while ejecutando:
     
     # Verificar fin del tiempo
     if tiempo_restante <= 0 and buzo.total_rescatados < animales_requeridos and not game_over:
-        mostrar_mensaje("⏰ TIEMPO AGOTADO", 
+        mostrar_mensaje("TIEMPO AGOTADO", 
                        f"Rescataste: {buzo.total_rescatados}/{animales_requeridos} animales", 
                        ROJO)
         crear_nivel()
@@ -447,16 +447,14 @@ while ejecutando:
         buzo.puntaje = max(0, buzo.puntaje - 100)
         
         if buzo.vidas <= 0:
-            mostrar_mensaje("GAME OVER ☠️", 
-                           f"Rescataste {buzo.total_rescatados} animales", 
-                           ROJO)
+            mostrar_mensaje("Vuelve a intentarlo", 
+                           f"Rescataste {buzo.total_rescatados} animales", ROJO)
             crear_nivel()
         else:
             buzo.rect.center = (ANCHO//2, 48)
             buzo.hitbox.center = buzo.rect.center
             buzo.lleva_animal = None
 
-    # RECOGER ANIMALES
     if not buzo.lleva_animal:
         animal_colisionado = verificar_colision_animales()
         if animal_colisionado:
