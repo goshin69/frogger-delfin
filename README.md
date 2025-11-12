@@ -14,7 +14,8 @@ Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ec
 
 Nuestro menu principal
 
-![Fondo del Menú](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)
+![Fondo del Menú](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)}
+<img src="[https://github.com/tu-usuario/tu-repo/blob/main/imagen.png?raw=true](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)" alt="Menu principal del juego" width="50%"/>
 
 Nivel 1
 Nuestro personaje principal y mascota oficial es un delfín que tiene que llegar a un lugar seguro, lejos de la contaminación. Su misión es salir de las aguas sucias y llenas de obstáculos para poder nadar libremente en un mar limpio, mostrando que aún es posible recuperar la pureza del océano si cuidamos el medio ambiente.
