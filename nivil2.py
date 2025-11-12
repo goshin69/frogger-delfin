@@ -10,14 +10,12 @@ try:
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.7)
 except Exception as e:
-    print(f"No se pudo cargar la música: {e}")
+    print(f"No se pudo cargar la musica: {e}")
 
 # ======== CONFIGURACION ========
 ANCHO, ALTO = 900, 740
 TILE = 64
 FPS = 60
-
-# MODO VENTANA - ELIGE UNA DE ESTAS OPCIONES:
 
 screen = pygame.display.set_mode((ANCHO, ALTO), 0)
 
@@ -55,7 +53,7 @@ def cargar_imagen(nombre_archivo, ancho=TILE, alto=TILE, color_placeholder=(150,
 
 # ======== CARGAR IMAGENES ========
 img_cangrejo = cargar_imagen("cancrejo.png", 50, 50, (220, 60, 60))
-img_basura = cargar_imagen("basura.png", 48, 48, (120, 120, 120))
+img_basura = cargar_imagen("bolsa de basura.png", 48, 48, (120, 120, 120))
 img_peligro = cargar_imagen("gaviota_der.png", 64, 64, (120, 60, 160))
 img_meta = cargar_imagen("coral.png", 64, 64, (200, 100, 50))
 
@@ -296,7 +294,7 @@ while True:
             basura_group.remove(hit)
             puntaje += 50
 
-    # Colisión con peligros - con invulnerabilidad
+    # Colision con peligros - con invulnerabilidad
     if not jugador.invulnerable and pygame.sprite.spritecollideany(jugador, peligro_group):
         jugador.vidas -= 1
         puntaje = max(0, puntaje - 100)
