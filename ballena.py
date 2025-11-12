@@ -2,7 +2,7 @@ import sys, random, math, pygame
 import os
 
 # =========================
-# Configuración general
+# Configuracion general
 # =========================
 pygame.init()
 pygame.display.set_caption("DEFIN — Pygame")
@@ -45,8 +45,8 @@ def get_file_path(filename):
             return path
     return None
 
-# Cargar y reproducir música de fondo
-music_file = "MusicaBackgruand.mp3"
+# Cargar y reproducir musica de fondo
+music_file = "Beetlejuice (NES) Music - Stage 01.mp3"
 music_path = get_file_path(music_file)
 
 if music_path:
@@ -54,7 +54,7 @@ if music_path:
         pygame.mixer.music.load(music_path)
         pygame.mixer.music.play(-1)  # -1 para reproducir en bucle
         pygame.mixer.music.set_volume(0.7)  # Volumen al 70%
-        print(f"Música cargada correctamente desde: {music_path}")
+        print(f"Musica cargada correctamente desde: {music_path}")
     except Exception as e:
         print(f"Error al cargar la música: {e}")
 else:
@@ -84,7 +84,7 @@ RED        = (220, 50, 50)
 FONT  = pygame.font.SysFont("arial", 20)
 FONT2 = pygame.font.SysFont("arial", 36, bold=True)
 
-# Puntuación
+# Puntuacion
 POINT_PER_NEW_ROW = 10
 POINT_PER_HOME    = 200
 
@@ -95,7 +95,7 @@ TIME_PER_ATTEMPT = 60.0
 HOME_COLS = [9, 12, 15, 18, 21]
 
 # =========================
-# Cargar imágenes (con manejo de errores)
+# Cargar imagenes (con manejo de errores)
 # =========================
 def load_image(path, alpha=True):
     # Primero verificar si la ruta existe
@@ -124,13 +124,13 @@ def load_image(path, alpha=True):
         return surf
 
 # Cargar todas las imgenes
-frog_img = load_image("delfin-version-frogge3r-main/imagenes/Delfin2o.png")
+frog_img = load_image("delfin-version-frogge3r-main/imagenes/delfin-fotor.png")
 car_img = load_image("delfin-version-frogge3r-main/imagenes/Basura.png")
 contenedor_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
 log_img = load_image("delfin-version-frogge3r-main/imagenes/TRONCO.png")
 turtle_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
 home_frog_img = load_image("delfin-version-frogge3r-main/imagenes/MAR.png")
-background_img = load_image("delfin-version-frogge3r-main/imagenes/oceano.png", alpha=False)
+background_img = load_image("delfin-version-frogge3r-main/imagenes/fondoDelfin.png", alpha=False)
 
 # Redimensionar background si es necesario
 background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))
@@ -194,7 +194,7 @@ class Turtle(MovingEntity):
         surf.blit(img_scaled, self.rect.topleft)
 
 # =========================
-# Spawner
+# Spawner - CORREGIDO
 # =========================
 class Spawner:
     def __init__(self, row, entity_kind, direction, speed_range, size_range_tiles, gap_range, level_scale=1.0):
@@ -206,8 +206,15 @@ class Spawner:
         self.gap_range = gap_range
         self.level_scale = level_scale
         self.timer = random.uniform(*self.gap_range)
+        # Contador para limitar la cantidad de entidades activas
+        self.max_active = 3  # Máximo de entidades activas por spawner
+        self.active_count = 0
 
     def spawn_one(self):
+        # Verificar si ya hay demasiadas entidades activas
+        if self.active_count >= self.max_active:
+            return None
+            
         y = self.row * TILE
         h = int(TILE * 0.9)
         w_tiles = random.randint(*self.size_range_tiles)
@@ -221,25 +228,38 @@ class Spawner:
 
         if self.entity_kind == 'VEHICLE':
             img = car_img
-            return Vehicle(rect, vx, img)
+            entity = Vehicle(rect, vx, img)
         elif self.entity_kind == 'LOG':
-            return Log(rect, vx, log_img)
+            entity = Log(rect, vx, log_img)
         else:
-            return Turtle(rect, vx, turtle_img)
+            entity = Turtle(rect, vx, turtle_img)
+            
+        # Incrementar contador de activos
+        self.active_count += 1
+        return entity
 
     def update(self, dt, container_list):
         self.timer -= dt
         if self.timer <= 0:
-            container_list.append(self.spawn_one())
-            self.timer = random.uniform(*self.gap_range)
+            entity = self.spawn_one()
+            if entity:
+                container_list.append(entity)
+        
+                self.timer = random.uniform(self.gap_range[0] * 1.5, self.gap_range[1] * 1.5)
+            else:
+                # Si no puede spawnear, esperar un poco menos
+                self.timer = random.uniform(0.5, 1.0)
+                
+        # Actualizar contador de entidades activas
+        self.active_count = sum(1 for e in container_list if e.alive and hasattr(e, 'row') and e.row == self.row)
 
 # =========================
-# delfin/frog
+# delfin/frog - CORREGIDO
 # =========================
 class Frog:
     def __init__(self, spawn_col, spawn_row):
-        self.w = int(TILE * 0.9)
-        self.h = int(TILE * 0.9)
+        self.w = int(TILE * 0.7)  # Reducido para mejor colisión
+        self.h = int(TILE * 0.7)  # Reducido para mejor colisión
         self.spawn_col = spawn_col
         self.spawn_row = spawn_row
         self.input_cooldown = 0.0
@@ -249,6 +269,13 @@ class Frog:
     def reset(self):
         x, y = grid_to_px(self.spawn_col, self.spawn_row)
         self.rect = pygame.Rect(x+(TILE-self.w)//2, y+(TILE-self.h)//2, self.w, self.h)
+    
+        self.collision_rect = pygame.Rect(
+            self.rect.x + self.w * 0.15, 
+            self.rect.y + self.h * 0.15,
+            self.w * 0.7,
+            self.h * 0.7
+        )
         self.on_platform = None
         self.furthest_row = self.spawn_row
         self.alive = True
@@ -260,22 +287,28 @@ class Frog:
         self.rect.x += dx_tiles * TILE
         self.rect.y += dy_tiles * TILE
 
+        self.collision_rect.x = self.rect.x + self.w * 0.15
+        self.collision_rect.y = self.rect.y + self.h * 0.15
+
     def update(self, dt):
         if self.input_cooldown > 0:
             self.input_cooldown -= dt
+            
+        self.collision_rect.x = self.rect.x + self.w * 0.15
+        self.collision_rect.y = self.rect.y + self.h * 0.15
 
     def draw(self, surf):
         img_scaled = pygame.transform.scale(frog_img, (self.rect.w, self.rect.h))
         surf.blit(img_scaled, self.rect.topleft)
 
 # =========================
-# Juego
+# Juego - CORREGIDO
 # =========================
 class Game:
     def __init__(self):
         self.level = 1
         self.score = 0
-        self.lives = 500
+        self.lives = 5  
         self.home_occupied = [False]*5
         self.state = 'PLAYING'
         self.time_left = TIME_PER_ATTEMPT
@@ -301,12 +334,12 @@ class Game:
                 direction = -1 if (r % 2 == 0) else 1
                 speed_range = (40, 120)
                 size_tiles  = (2, 3)
-                gap_range   = (9, 2.2)
+                gap_range   = (2.5, 4.0)  # Aumentado para menos spawns
                 self.spawners.append(Spawner(r, 'VEHICLE', direction, speed_range, size_tiles, gap_range, level_scale))
             elif kind == 'RIVER':
                 direction = 1 if (r % 2 == 0) else -1
                 speed_range = (80, 150)
-                gap_range   = (1.4, 2.5)
+                gap_range   = (2.0, 3.5)  # Aumentado para menos spawns
                 if r % 3 == 0:
                     size_tiles = (1, 2)
                     self.spawners.append(Spawner(r, 'TURTLE', direction, speed_range, size_tiles, gap_range, level_scale))
@@ -398,14 +431,14 @@ class Game:
             return
         if kind == 'ROAD':
             for v in self.vehicles:
-                if self.frog.rect.colliderect(v.rect):
+                if self.frog.collision_rect.colliderect(v.rect):
                     self.reset_attempt(lose_life=True)
                     return
         elif kind == 'RIVER':
             supported = False
             carry_vx = 0.0
             for p in self.platforms:
-                if self.frog.rect.colliderect(p.rect):
+                if self.frog.collision_rect.colliderect(p.rect):
                     if isinstance(p, Turtle):
                         if not p.is_submerged:
                             supported = True
@@ -415,6 +448,7 @@ class Game:
                         carry_vx = p.vx
             if supported:
                 self.frog.rect.x += int(carry_vx * dt)
+                self.frog.collision_rect.x += int(carry_vx * dt)  # Actualizar colisión también
                 if not in_bounds_rect(self.frog.rect):
                     self.reset_attempt(lose_life=True)
                     return
@@ -426,7 +460,7 @@ class Game:
         # Dibujar la imagen de fondo
         surf.blit(background_img, (0, 0))
         
-        # Dibujar áreas semitransparentes para mejorar la visibilidad
+        # Dibujar areas semitransparentes para mejorar la visibilidad
         for row in range(ROWS):
             kind = lane_type(row)
             rect = pygame.Rect(0, row*TILE, WIDTH, TILE)
@@ -518,10 +552,10 @@ def main():
                 if event.key == pygame.K_p:
                     if game.state == 'PLAYING':
                         game.state = 'PAUSED'
-                        pygame.mixer.music.pause()  # Pausar música cuando el juego se pausa
+                        pygame.mixer.music.pause()  
                     elif game.state == 'PAUSED':
                         game.state = 'PLAYING'
-                        pygame.mixer.music.unpause()  # Reanudar música cuando el juego continúa
+                        pygame.mixer.music.unpause()  
 
                 if game.state == 'PLAYING':
                     game.handle_input(event.key)
@@ -530,9 +564,9 @@ def main():
                         game.next_level()
                 elif game.state == 'GAMEOVER':
                     if event.key == pygame.K_r:
-                        # Reiniciar el juego y la música
+                  
                         game = Game()
-                        pygame.mixer.music.play(-1)  # Volver a reproducir la música
+                        pygame.mixer.music.play(-1)  
 
         if game.state == 'PLAYING':
             game.update(dt)
