@@ -1,5 +1,6 @@
 # DOLPHER "SALVEMOS EL MAR"
 
+<div align="center">
 Descripción:
 
 "Embárcate en una emocionante aventura marina donde tu misión es vital: proteger el mar de la contaminación y el daño que esta puede causar. En Dolpher, tomas el rol de un valiente delfín, un intrepido cangrejo y un ágil buzo, que son la clave para la conservación del ecosistema marino.
@@ -14,8 +15,9 @@ Aprende mientras juegas: Descubre datos fascinantes sobre la vida marina y la ec
 
 Nuestro menu principal
 
-![Fondo del Menú](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)}
-<img src="[https://github.com/tu-usuario/tu-repo/blob/main/imagen.png?raw=true](https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png)" alt="Menu principal del juego" width="50%"/>
+<div align="center">
+<img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/d437d511c34ad3e9711848437383b2daa9966a2c/Imgs/MenuFondo.png" alt="Menu principal del juego" width="45%"/>
+
 
 Nivel 1
 Nuestro personaje principal y mascota oficial es un delfín que tiene que llegar a un lugar seguro, lejos de la contaminación. Su misión es salir de las aguas sucias y llenas de obstáculos para poder nadar libremente en un mar limpio, mostrando que aún es posible recuperar la pureza del océano si cuidamos el medio ambiente.
@@ -25,7 +27,9 @@ Nuestro personaje principal y mascota oficial es un delfín que tiene que llegar
 
 Nivel 2
 En el segundo nivel, el protagonista es un cangrejo que trabaja duro y tiene mucha determinación. Representa la vida en la playa. Su hogar está llena de basura, lo que pone en riesgo su supervivencia. Con mucho esfuerzo, el cangrejo recoge los residuos para limpiar su entorno. Quiere mostrar que hasta las acciones más pequeñas pueden ayudar a cuidar el planeta. 
-![Cangrejo parpadeando](https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif)
+<div align="center">
+<img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/15d07f68a30744b37ebcca19c524e1c4e3552bbe/LV2_cangrejo%20%20(1).gif" alt="Menu principal del juego" width="15%"/>
+  
 
 Nivel 3
 
@@ -52,10 +56,14 @@ Cada nivel refleja un ecosistema dañado por residuos, aceites y desperdicios.
 El jugador aprende que mantener el mar limpio es parte de la misión del juego.
 
 Enemigo de Nivel 2
-<h1 align="center" style="font-size:60px; color:#00bfff; text-shadow: 3px 3px #003366;">
+
 🐦 Pajaros!
-</h1>
-![Gaviota](https://raw.githubusercontent.com/goshin69/frogger-delfin/9d65759e2fb46d6adecbba8245fde990cde90c7e/gaviota_izq.png)
+
+|Gaviota|
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/goshin69/frogger-delfin/9d65759e2fb46d6adecbba8245fde990cde90c7e/gaviota_izq.png" alt="Menu principal del juego" width="15%"/>
+  
 
 
 Nivel 3
@@ -70,5 +78,7 @@ Obstaculos del 3er Nivel
 ![Bote Blanco](https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/boteblanco.png)
 ![Bote1](https://raw.githubusercontent.com/goshin69/frogger-delfin/2420642e99273de4fdf5231bd7b24335c4381e69/Bote1.png)
 
+
+<h1 align="center" style="font-size:60px; color:#00bfff; text-shadow: 3px 3px #003366;">
 
 IMPORTANTE: Para ejecutar el juego se necesita la versión 3.11 de python, ya que las más avanzadas tienen problemas de compatibilidad.
