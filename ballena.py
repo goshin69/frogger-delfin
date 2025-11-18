@@ -31,18 +31,29 @@ clock  = pygame.time.Clock()
 # =========================
 def get_file_path(filename):
     """Busca el archivo en diferentes ubicaciones posibles"""
+    # Obtener el directorio actual del script (MainGame)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Subir dos niveles: MainGame -> frogger-delfin-Menu-principal -> prueba (workspace)
+    workspace_root = os.path.dirname(os.path.dirname(script_dir))
+    
     # Posibles ubicaciones donde podrían estar los archivos
     possible_paths = [
-        filename,  # En el directorio actual
-        os.path.join("delfin-version-frogge3r-main", filename),
-        os.path.join("delfin-version-frogger-main", filename),
-        os.path.join("..", filename),
-        os.path.join(".", filename)
+        # En workspace root
+        os.path.join(workspace_root, filename),
+        # En la carpeta delfin-version-frogge3r-main
+        os.path.join(workspace_root, "delfin-version-frogge3r-main", filename),
+        # En el directorio actual del script
+        os.path.join(script_dir, filename),
+        # Alternativa con nombre similar
+        os.path.join(workspace_root, "delfin-version-frogger-main", filename),
     ]
     
     for path in possible_paths:
         if os.path.exists(path):
+            print(f"Archivo encontrado: {path}")
             return path
+    
+    print(f"Archivo no encontrado: {filename}. Buscadas: {possible_paths}")
     return None
 
 # Cargar y reproducir musica de fondo
@@ -98,39 +109,42 @@ HOME_COLS = [9, 12, 15, 18, 21]
 # Cargar imagenes (con manejo de errores)
 # =========================
 def load_image(path, alpha=True):
-    # Primero verificar si la ruta existe
-    if not os.path.exists(path):
-        # Intentar encontrar el archivo en ubicaciones alternativas
-        filename = os.path.basename(path)
-        alt_path = get_file_path(filename)
-        if alt_path:
-            path = alt_path
-        else:
-            print(f"Archivo de imagen no encontrado: {path}")
+    # Primero intentar obtener la ruta completa
+    full_path = get_file_path(path)
     
-    try:
-        if alpha:
-            return pygame.image.load(path).convert_alpha()
-        else:
-            return pygame.image.load(path).convert()
-    except Exception as e:
-        print(f"Error cargando imagen {path}: {e}")
+    if not full_path:
+        print(f"Archivo de imagen no encontrado: {path}")
         # Crear una imagen de placeholder si hay error
         surf = pygame.Surface((TILE, TILE), pygame.SRCALPHA)
         if alpha:
-            surf.fill((255, 0, 255, 128))  # Magenta transparente para imágenes alpha
+            surf.fill((100, 100, 100, 255))  # Gris oscuro en lugar de magenta
         else:
-            surf.fill((255, 0, 255))  # Magenta para imágenes normales
+            surf.fill((100, 100, 100))
+        return surf
+    
+    try:
+        if alpha:
+            return pygame.image.load(full_path).convert_alpha()
+        else:
+            return pygame.image.load(full_path).convert()
+    except Exception as e:
+        print(f"Error cargando imagen {full_path}: {e}")
+        # Crear una imagen de placeholder si hay error
+        surf = pygame.Surface((TILE, TILE), pygame.SRCALPHA)
+        if alpha:
+            surf.fill((100, 100, 100, 255))  # Gris oscuro en lugar de magenta
+        else:
+            surf.fill((100, 100, 100))
         return surf
 
 # Cargar todas las imgenes
-frog_img = load_image("delfin-version-frogge3r-main/imagenes/delfin-fotor.png")
-car_img = load_image("delfin-version-frogge3r-main/imagenes/Basura.png")
-contenedor_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
-log_img = load_image("delfin-version-frogge3r-main/imagenes/TRONCO.png")
-turtle_img = load_image("delfin-version-frogge3r-main/imagenes/CONTENEDOR.png")
-home_frog_img = load_image("delfin-version-frogge3r-main/imagenes/MAR.png")
-background_img = load_image("delfin-version-frogge3r-main/imagenes/fondoDelfin.png", alpha=False)
+frog_img = load_image("imagenes/delfin-fotor.png")
+car_img = load_image("imagenes/Basura.png")
+contenedor_img = load_image("imagenes/CONTENEDOR.png")
+log_img = load_image("imagenes/TRONCO.png")
+turtle_img = load_image("imagenes/CONTENEDOR.png")
+home_frog_img = load_image("imagenes/MAR.png")
+background_img = load_image("imagenes/fondoDelfin.png", alpha=False)
 
 # Redimensionar background si es necesario
 background_img = pygame.transform.scale(background_img, (WIDTH, HEIGHT))

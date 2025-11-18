@@ -2,10 +2,36 @@ import pygame, sys, os, random
 pygame.init()
 pygame.display.set_caption("Cangrejo Recolector — Dolpher")
 
+# ======== FUNCION PARA ENCONTRAR ARCHIVOS ========
+def get_file_path(filename):
+    """Busca el archivo en diferentes ubicaciones posibles"""
+    # Obtener el directorio actual del script (MainGame)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Subir dos niveles: MainGame -> frogger-delfin-Menu-principal -> prueba (workspace)
+    workspace_root = os.path.dirname(os.path.dirname(script_dir))
+    
+    # Posibles ubicaciones donde podrían estar los archivos
+    possible_paths = [
+        # En workspace root
+        os.path.join(workspace_root, filename),
+        # En la carpeta delfin-version-frogge3r-main
+        os.path.join(workspace_root, "delfin-version-frogge3r-main", filename),
+        # En el directorio actual del script
+        os.path.join(script_dir, filename),
+        # Alternativa con nombre similar
+        os.path.join(workspace_root, "delfin-version-frogger-main", filename),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    
+    return None
+
 try:
     pygame.mixer.init()
-    musica_path = os.path.join("delfin-version-frogge3r-main", "musica", "musica_level_2.mp3")
-    if os.path.exists(musica_path):
+    musica_path = get_file_path(os.path.join("musica", "musica_level_2.mp3"))
+    if musica_path:
         pygame.mixer.music.load(musica_path)
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.7)
@@ -13,7 +39,7 @@ except Exception as e:
     print(f"No se pudo cargar la musica: {e}")
 
 # ======== CONFIGURACION ========
-ANCHO, ALTO = 900, 740
+ANCHO, ALTO = 1220, 740
 TILE = 64
 FPS = 60
 
@@ -31,21 +57,16 @@ GRIS = (80, 80, 80)
 
 # ======== FUNCION MEJORADA PARA CARGAR IMAGENES ========
 def cargar_imagen(nombre_archivo, ancho=TILE, alto=TILE, color_placeholder=(150,150,150)):
-    rutas_posibles = [
-        os.path.join("delfin-version-frogge3r-main", "imagenes", nombre_archivo),
-        os.path.join("imagenes", nombre_archivo),
-        nombre_archivo
-    ]
+    ruta = get_file_path(os.path.join("imagenes", nombre_archivo))
     
-    for ruta in rutas_posibles:
-        if os.path.exists(ruta):
-            try:
-                img = pygame.image.load(ruta).convert_alpha()
-                return pygame.transform.scale(img, (ancho, alto))
-            except Exception as e:
-                print(f"Error cargando {ruta}: {e}")
-                continue
+    if ruta and os.path.exists(ruta):
+        try:
+            img = pygame.image.load(ruta).convert_alpha()
+            return pygame.transform.scale(img, (ancho, alto))
+        except Exception as e:
+            print(f"Error cargando {ruta}: {e}")
     
+    print(f"Imagen no encontrada: {nombre_archivo}")
     # Placeholder si no se encuentra
     superficie = pygame.Surface((ancho, alto), pygame.SRCALPHA)
     superficie.fill(color_placeholder)
@@ -62,19 +83,13 @@ def cargar_fondo():
     archivos_fondo = ["fondocancrejo.png"]
     
     for archivo in archivos_fondo:
-        rutas = [
-            os.path.join("delfin-version-frogge3r-main", "imagenes", archivo),
-            os.path.join("imagenes", archivo),
-            archivo
-        ]
-        
-        for ruta in rutas:
-            if os.path.exists(ruta):
-                try:
-                    fondo = pygame.image.load(ruta).convert()
-                    return pygame.transform.scale(fondo, (ANCHO, ALTO))
-                except:
-                    continue
+        ruta = get_file_path(os.path.join("imagenes", archivo))
+        if ruta and os.path.exists(ruta):
+            try:
+                fondo = pygame.image.load(ruta).convert()
+                return pygame.transform.scale(fondo, (ANCHO, ALTO))
+            except:
+                continue
     
     fondo = pygame.Surface((ANCHO, ALTO))
     fondo.fill((50, 120, 200))

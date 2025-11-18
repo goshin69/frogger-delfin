@@ -2,11 +2,37 @@ import pygame, sys, os, random, time
 pygame.init()
 pygame.display.set_caption("Nivel 3 — Buzo Rescatista")
 
+# ======== FUNCION PARA ENCONTRAR ARCHIVOS ========
+def get_file_path(filename):
+    """Busca el archivo en diferentes ubicaciones posibles"""
+    # Obtener el directorio actual del script (MainGame)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Subir dos niveles: MainGame -> frogger-delfin-Menu-principal -> prueba (workspace)
+    workspace_root = os.path.dirname(os.path.dirname(script_dir))
+    
+    # Posibles ubicaciones donde podrían estar los archivos
+    possible_paths = [
+        # En workspace root
+        os.path.join(workspace_root, filename),
+        # En la carpeta delfin-version-frogge3r-main
+        os.path.join(workspace_root, "delfin-version-frogge3r-main", filename),
+        # En el directorio actual del script
+        os.path.join(script_dir, filename),
+        # Alternativa con nombre similar
+        os.path.join(workspace_root, "delfin-version-frogger-main", filename),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    
+    return None
+
 # ======== CONFIGURACION ========
-ANCHO, ALTO = 832, 640
+ANCHO, ALTO = 1220, 740
 FPS = 60
 TILE = 64
-TIEMPO_LIMITE = 90
+TIEMPO_LIMITE = 200
 
 # MODO VENTANA
 screen = pygame.display.set_mode((ANCHO, ALTO), pygame.RESIZABLE)
@@ -15,8 +41,8 @@ clock = pygame.time.Clock()
 # ======== SONIDO ========
 try:
     pygame.mixer.init()
-    musica_path = os.path.join("delfin-version-frogge3r-main", "musica", "level 3.mp3")
-    if os.path.exists(musica_path):
+    musica_path = get_file_path(os.path.join("musica", "level 3.mp3"))
+    if musica_path:
         pygame.mixer.music.load(musica_path)
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.7)
@@ -38,20 +64,14 @@ MARRON = (150, 100, 50)
 
 # ======== CARGA DE IMAGENES ========
 def cargar_imagen(nombre, ancho=TILE, alto=TILE, color_default=(150, 150, 150)):
-    rutas_posibles = [
-        os.path.join("imagenes", nombre),
-        os.path.join("delfin-version-frogge3r-main", "imagenes", nombre),
-        nombre
-    ]
+    ruta = get_file_path(os.path.join("imagenes", nombre))
     
-    for ruta in rutas_posibles:
-        if os.path.exists(ruta):
-            try:
-                img = pygame.image.load(ruta).convert_alpha()
-                return pygame.transform.scale(img, (ancho, alto))
-            except Exception as e:
-                print(f"Error cargando {ruta}: {e}")
-                continue
+    if ruta and os.path.exists(ruta):
+        try:
+            img = pygame.image.load(ruta).convert_alpha()
+            return pygame.transform.scale(img, (ancho, alto))
+        except Exception as e:
+            print(f"Error cargando {ruta}: {e}")
     
     print(f"Imagen no encontrada: {nombre}")
     surf = pygame.Surface((ancho, alto), pygame.SRCALPHA)
@@ -67,20 +87,14 @@ def cargar_fondo():
     fondos_posibles = ["fondobuzo.png"]
     
     for fondo_nombre in fondos_posibles:
-        rutas = [
-            os.path.join("imagenes", fondo_nombre),
-            os.path.join("delfin-version-frogge3r-main", "imagenes", fondo_nombre),
-            fondo_nombre
-        ]
-        
-        for ruta in rutas:
-            if os.path.exists(ruta):
-                try:
-                    fondo_img = pygame.image.load(ruta).convert()
-                    return pygame.transform.scale(fondo_img, (ANCHO, ALTO))
-                except Exception as e:
-                    print(f"Error cargando fondo {ruta}: {e}")
-                    continue
+        ruta = get_file_path(os.path.join("imagenes", fondo_nombre))
+        if ruta and os.path.exists(ruta):
+            try:
+                fondo_img = pygame.image.load(ruta).convert()
+                return pygame.transform.scale(fondo_img, (ANCHO, ALTO))
+            except Exception as e:
+                print(f"Error cargando fondo {ruta}: {e}")
+                continue
     
     fondo = pygame.Surface((ANCHO, ALTO))
     fondo.fill(AZUL_AGUA)
