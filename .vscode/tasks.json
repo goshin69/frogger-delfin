@@ -1,0 +1,10 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Ejecutar Config.py",
+			"type": "shell",
+			"command": "python Config.py"
+		}
+	]
+}
