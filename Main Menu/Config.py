@@ -2,10 +2,13 @@
 import os
 import pygame
 import sys
-import json
 
 ANCHO, ALTO = 800, 600
-VOLUMEN_FILE = os.path.join(os.path.dirname(__file__), 'volumen.json')
+
+# Inicializar volumen y mixer antes de cualquier uso
+volumen = 0.5
+pygame.mixer.init()
+pygame.mixer.music.set_volume(volumen)
 
 pygame.init()
 screen = pygame.display.set_mode((ANCHO, ALTO))
@@ -14,41 +17,37 @@ clock = pygame.time.Clock()
 
 def get_file_path(filename):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    workspace_root = os.path.dirname(os.path.dirname(script_dir))
-    possible_paths = [
-        os.path.join(workspace_root, filename),
+    project_root = os.path.dirname(os.path.dirname(script_dir))
+    candidates = [
+        os.path.join(project_root, 'Imgs', filename),
+        os.path.join(script_dir, 'Imgs', filename),
+        os.path.join(project_root, filename),
         os.path.join(script_dir, filename),
-        os.path.join(workspace_root, "Imgs", filename),
-        os.path.join(script_dir, "Imgs", filename),
-        os.path.join(workspace_root, "Main Menu", "Imgs", filename),
-        os.path.join(script_dir, "Main Menu", "Imgs", filename),
+        os.path.join(project_root, 'Main Menu', 'Imgs', filename),
+        os.path.join(script_dir, 'Main Menu', 'Imgs', filename),
+        os.path.join(script_dir, '..', 'Imgs', filename),
     ]
-    for path in possible_paths:
+    for path in candidates:
         if os.path.exists(path):
             return path
+    print(f"[ADVERTENCIA] Imagen no encontrada: {filename}. Buscado en: {candidates}")
     return None
 
-# --- Volumen global ---
-def cargar_volumen():
-    if os.path.exists(VOLUMEN_FILE):
-        try:
-            with open(VOLUMEN_FILE, 'r') as f:
-                data = json.load(f)
-                return float(data.get('volumen', 0.5))
-        except Exception:
-            return 0.5
-    return 0.5
 
-def guardar_volumen(vol):
-    with open(VOLUMEN_FILE, 'w') as f:
-        json.dump({'volumen': vol}, f)
+# --- Acciones de volumen ---
+def subir_volumen():
+    global volumen
+    volumen = min(1.0, volumen + 0.1)
+    pygame.mixer.music.set_volume(volumen)
 
-volumen = cargar_volumen()
-pygame.mixer.init()
-pygame.mixer.music.set_volume(volumen)
+def bajar_volumen():
+    global volumen
+    volumen = max(0.0, volumen - 0.1)
+    pygame.mixer.music.set_volume(volumen)
 
+def apagar_volumen():
+    global volumen
 # --- Botones ---
-
 import subprocess
 
 class Button:
@@ -76,25 +75,7 @@ class Button:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
                 self.callback()
-
-# --- Acciones de volumen ---
-def subir_volumen():
-    global volumen
-    volumen = min(1.0, volumen + 0.1)
     pygame.mixer.music.set_volume(volumen)
-    guardar_volumen(volumen)
-
-def bajar_volumen():
-    global volumen
-    volumen = max(0.0, volumen - 0.1)
-    pygame.mixer.music.set_volume(volumen)
-    guardar_volumen(volumen)
-
-def apagar_volumen():
-    global volumen
-    volumen = 0.0
-    pygame.mixer.music.set_volume(volumen)
-    guardar_volumen(volumen)
 
 # --- Cargar fondo ---
 ruta_fondo = get_file_path("MenuConfig.png")
@@ -116,6 +97,9 @@ BTN_HEIGHT = 90
 
 
 # --- Idioma ---
+
+# --- Idioma (mantener json solo para idioma) ---
+import json
 IDIOMA_FILE = os.path.join(os.path.dirname(__file__), 'idioma.json')
 def guardar_idioma(idioma):
     with open(IDIOMA_FILE, 'w') as f:
@@ -130,17 +114,21 @@ def cargar_idioma():
             return 'es'
     return 'es'
 
-idioma_actual = cargar_idioma()
+
 
 def set_espanol():
     global idioma_actual
     idioma_actual = 'es'
     guardar_idioma('es')
+    global idioma_cambiado
+    idioma_cambiado = True
 
 def set_ingles():
     global idioma_actual
     idioma_actual = 'en'
     guardar_idioma('en')
+    global idioma_cambiado
+    idioma_cambiado = True
 
 # --- Posiciones y tamaños de los botones de idioma (modificables) ---
 POS_BTN_ES = (140, 330)
@@ -159,9 +147,12 @@ btn_apagar = Button(" ", POS_BTN_APAGAR[0], POS_BTN_APAGAR[1], BTN_WIDTH, BTN_HE
 # Botón Atrás
 def volver_menu():
     mainmenu_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Main Menu', 'mainmenu.py'))
-    if os.path.exists(mainmenu_path):
-        # Usar subprocess.Popen en todos los sistemas para evitar cierre inmediato
-        subprocess.Popen([sys.executable, mainmenu_path], creationflags=subprocess.CREATE_NEW_CONSOLE if os.name == 'nt' else 0)
+    idioma_actual = cargar_idioma()
+    # Solo relanzar si el idioma fue cambiado
+    if 'idioma_cambiado' in globals() and idioma_cambiado:
+        if os.path.exists(mainmenu_path):
+            args = [sys.executable, mainmenu_path, '--idioma', idioma_actual]
+            subprocess.Popen(args, creationflags=subprocess.CREATE_NEW_CONSOLE if os.name == 'nt' else 0)
     global running
     running = False
 
@@ -173,7 +164,9 @@ btn_atras = Button("", BTN_ATRAS_X, BTN_ATRAS_Y, BTN_ATRAS_W, BTN_ATRAS_H, volve
 
 botones = [btn_subir, btn_bajar, btn_apagar, btn_es, btn_en, btn_atras]
 
+
 # --- Bucle principal ---
+idioma_cambiado = False
 running = True
 
 while running:
@@ -185,7 +178,6 @@ while running:
                 running = False
         for btn in botones:
             btn.handle_event(event)
-        # Si running se puso en False por el botón Atrás, salir del bucle inmediatamente
         if not running:
             break
 
@@ -205,16 +197,15 @@ while running:
     txt = font.render(f"Volumen: {int(volumen*100)}%", True, (255,255,255))
     screen.blit(txt, (ANCHO//2 - txt.get_width()//2, 220))
 
-    # Mostrar idioma actual
+
+    # Mostrar idioma actual (siempre actualizado)
+    idioma_actual = cargar_idioma()
     font_idioma = pygame.font.SysFont(None, 32)
     idioma_txt = "Idioma actual: Español" if idioma_actual == 'es' else "Idioma actual: Inglés"
-
     idioma_surf = font_idioma.render(idioma_txt, True, (255,255,255))
     screen.blit(idioma_surf, (POS_TEXTO_IDIOMA[0] - idioma_surf.get_width()//2, POS_TEXTO_IDIOMA[1]))
 
     pygame.display.flip()
     clock.tick(60)
 
-# Cerrar pygame y salir solo al final del script
 pygame.quit()
-sys.exit()

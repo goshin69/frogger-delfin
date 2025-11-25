@@ -1,10 +1,10 @@
 
+
 import pygame
 import os
-import json
 import sys
-import os
 import subprocess
+import argparse
 
 ANCHO = 1366
 ALTO = 768
@@ -13,49 +13,30 @@ BTN_COLOR = (70, 130, 180)
 BTN_HOVER = (100, 160, 210)
 TEXT_COLOR = (255, 255, 255)
 FPS = 60
-<<<<<<< Updated upstream
-# Highlight config: muestra un área amarilla semitransparente sobre cada hitbox
-HIGHLIGHT_YELLOW = True
-HIGHLIGHT_COLOR = (255, 255, 0, 120)  # RGBA (alpha 0-255)
-=======
 HIGHLIGHT_YELLOW = True
 HIGHLIGHT_COLOR = (255, 255, 0, 120)
->>>>>>> Stashed changes
 
 pygame.init()
-def cargar_volumen():
-    try:
-        with open(os.path.join(os.path.dirname(__file__), 'volumen.json'), 'r') as f:
-            data = json.load(f)
-            return float(data.get('volumen', 0.5))
-    except Exception:
-        return 0.5
 pygame.mixer.init()
-pygame.mixer.music.set_volume(cargar_volumen())
+pygame.mixer.music.set_volume(0.5)
 screen = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Seleccionar Nivel")
 
-<<<<<<< Updated upstream
 # Cargar imagen de fondo
 # Ruta relativa desde este archivo hacia la carpeta Imgs
 Ruta_Imagen_Fondo = os.path.join(os.path.dirname(__file__), "..", "Imgs", "MenuNivelesBotones.png")
 background_image = None
-=======
->>>>>>> Stashed changes
 
 # --- Selección de idioma para fondo ---
-IDIOMA_FILE = os.path.join(os.path.dirname(__file__), '..', 'idioma.json')
-def cargar_idioma():
-    if os.path.exists(IDIOMA_FILE):
-        try:
-            with open(IDIOMA_FILE, 'r') as f:
-                data = json.load(f)
-                return data.get('idioma', 'es')
-        except Exception:
-            return 'es'
-    return 'es'
 
-idioma_actual = cargar_idioma()
+# --- Argumentos de línea de comandos para idioma ---
+def obtener_idioma():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--idioma', default='es', choices=['es', 'en'])
+    args, _ = parser.parse_known_args()
+    return args.idioma
+
+idioma_actual = obtener_idioma()
 if idioma_actual == 'en':
     fondo_file = "MenuNivelesBotonesTituloIngles.png"
 else:
@@ -91,12 +72,6 @@ def _run_mainmenu():
     except Exception:
         pass
 
-<<<<<<< Updated upstream
-
-
-    # último recurso: lanzar un nuevo proceso
-=======
->>>>>>> Stashed changes
     try:
         subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__), "mainmenu.py")])
     except Exception:
@@ -111,12 +86,6 @@ def _run_dolpher():
             return
     except Exception:
         pass
-<<<<<<< Updated upstream
-
-
-
-=======
->>>>>>> Stashed changes
     try:
         subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__), "dolpher.py")])
     except Exception:
@@ -139,12 +108,6 @@ def _run_nivel2():
         subprocess.run([sys.executable, nivel2_path])
     except Exception:
         pass
-<<<<<<< Updated upstream
-    try:
-        subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__), "nivel2.py")])
-    except Exception:
-        pass
-=======
 
 def _run_nivel3():
     pygame.quit()
@@ -156,7 +119,6 @@ def _run_nivel3():
         pass
 
 
->>>>>>> Stashed changes
 
 def _run_nivel3():
     pygame.quit()
@@ -222,12 +184,6 @@ def seleccionar_nivel():
         else:
             screen.fill(BG_COLOR)
 
-<<<<<<< Updated upstream
-        title = title_font.render("Selecciona un nivel", True, TEXT_COLOR)
-        screen.blit(title, title.get_rect(center=(ANCHO // 2, 80)))
-
-=======
->>>>>>> Stashed changes
         # Efecto hover: ilumina el botón solo si el mouse está encima
         hover_color = (255, 255, 0, 120)
         for b in botones + [btn_atras]:

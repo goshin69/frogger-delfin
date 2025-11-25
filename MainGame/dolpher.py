@@ -1,9 +1,17 @@
+
 import sys, random, math, pygame
 import os
+import argparse
+
 
 # =========================
 # Configuración general
 # =========================
+parser = argparse.ArgumentParser()
+parser.add_argument('--idioma', default='es', choices=['es', 'en'])
+args, _ = parser.parse_known_args()
+idioma_actual = args.idioma
+
 pygame.init()
 pygame.display.set_caption("DEFIN — Pygame")
 
@@ -26,12 +34,36 @@ HEIGHT = ROWS * TILE
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock  = pygame.time.Clock()
 
+
 # =========================
 # Manejo de rutas de archivos
 # =========================
 # Base directory for this script and repo root
 SCRIPT_DIR = os.path.dirname(__file__)
 REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, os.pardir))
+
+# Mostrar tutorial según idioma antes de iniciar el juego
+def mostrar_tutorial():
+    if idioma_actual == 'en':
+        tutorial_file = 'TutorialdeljuegoIngles.png'
+    else:
+        tutorial_file = 'TutorialdeljuegoEspañol.png'
+    tutorial_path = get_file_path(tutorial_file)
+    if tutorial_path:
+        img = pygame.image.load(tutorial_path)
+        img = pygame.transform.scale(img, (WIDTH, HEIGHT))
+        screen.blit(img, (0, 0))
+        pygame.display.flip()
+        esperando = True
+        while esperando:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    esperando = False
+            pygame.time.wait(10)
+
 
 def get_file_path(filename):
     """Buscar un archivo de recursos en ubicaciones razonables.
@@ -576,4 +608,5 @@ def main():
     sys.exit()
 
 if __name__ == "__main__":
+    mostrar_tutorial()
     main()
