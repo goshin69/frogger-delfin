@@ -43,6 +43,8 @@ BLANCO = (255, 255, 255)
 VERDE = (70, 200, 90)
 AZUL = (50, 120, 255)
 ROJO = (200, 60, 60)
+AZUL_CLARO = (100, 150, 255)
+ROJO_CLARO = (255, 100, 100)
 
 # ======== FUNCION PARA CARGAR IMAGENES ========
 def cargar_imagen(nombre_archivo, ancho=TILE, alto=TILE, color_placeholder=(150,150,150)):
@@ -55,15 +57,24 @@ def cargar_imagen(nombre_archivo, ancho=TILE, alto=TILE, color_placeholder=(150,
         except Exception as e:
             print(f"Error cargando {ruta}: {e}")
     
+    # Si no encuentra la imagen, crea una de reemplazo con el color
     superficie = pygame.Surface((ancho, alto), pygame.SRCALPHA)
     superficie.fill(color_placeholder)
+    
+    # Dibujar texto con el nombre del archivo para identificarlo
+    font = pygame.font.SysFont(None, 20)
+    texto = font.render(nombre_archivo.split('.')[0], True, BLANCO)
+    texto_rect = texto.get_rect(center=(ancho//2, alto//2))
+    superficie.blit(texto, texto_rect)
+    
     return superficie
 
 # ======== CARGAR IMAGENES ========
 img_cangrejo = cargar_imagen("cancrejo.png", 50, 50, (220, 60, 60))
 img_basura = cargar_imagen("bolsa de basura.png", 48, 48, (120, 120, 120))
+img_lata_azul = cargar_imagen("lata azul.png", 35, 45, AZUL_CLARO)
+img_lata_roja = cargar_imagen("lata roja.png", 35, 45, ROJO_CLARO)
 img_peligro = cargar_imagen("gaviota_der.png", 64, 64, (120, 60, 160))
-img_meta = cargar_imagen("coral.png", 64, 64, (200, 100, 50))
 
 # ======== FONDO ========
 def cargar_fondo():
@@ -90,12 +101,9 @@ class Cangrejo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(ANCHO//2, ALTO-60))
         self.vidas = 3
         self.tiene_basura = False
+        self.tipo_basura = None  # Para saber qué tipo de basura lleva
         self.invulnerable = False
         self.tiempo_invulnerable = 0
-
-        # para guardar basura recogida
-        self.basura_x = None
-        self.basura_y = None
         
     def move(self, dx, dy):
         new_x = self.rect.x + dx * TILE
@@ -116,9 +124,20 @@ class Cangrejo(pygame.sprite.Sprite):
         self.tiempo_invulnerable = tiempo
 
 class Basura(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, tipo="bolsa"):
         super().__init__()
-        self.image = img_basura
+        self.tipo = tipo
+        # Asignar imagen según el tipo
+        if tipo == "bolsa":
+            self.image = img_basura
+            self.puntos = 3  # 3 puntos para bolsas
+        elif tipo == "lata_azul":
+            self.image = img_lata_azul
+            self.puntos = 2  # 2 puntos para latas
+        elif tipo == "lata_roja":
+            self.image = img_lata_roja
+            self.puntos = 2  # 2 puntos para latas
+            
         self.rect = self.image.get_rect(center=(x, y))
 
 class Peligro(pygame.sprite.Sprite):
@@ -141,13 +160,18 @@ def crear_basura_y_peligros():
     peligro_group.empty()
     
     posiciones_basura = []
+    tipos_basura = ["bolsa", "lata_azul", "lata_roja"]
+    
+    # Solo 5 basuras en total
     for _ in range(5):
         while True:
             x = random.randint(50, ANCHO-50)
             y = random.choice([TILE*1, TILE*2, TILE*3])
             if all(abs(x - px) > 40 or abs(y - py) > 40 for px, py in posiciones_basura):
                 posiciones_basura.append((x, y))
-                basura_group.add(Basura(x, y))
+                # Elegir tipo aleatorio de basura
+                tipo = random.choice(tipos_basura)
+                basura_group.add(Basura(x, y, tipo))
                 break
     
     for y in [TILE*4, TILE*5]:
@@ -162,13 +186,21 @@ def draw_background():
 def draw_hud():
     font = pygame.font.SysFont(None, 28)
     screen.blit(font.render(f"Vidas: {jugador.vidas}", True, BLANCO), (10, 10))
-    screen.blit(font.render(f"Basura: {'SÍ' if jugador.tiene_basura else 'NO'}", True, BLANCO), (10, 35))
+    
+    if jugador.tiene_basura:
+        color_basura = AZUL_CLARO if jugador.tipo_basura == "lata_azul" else ROJO_CLARO if jugador.tipo_basura == "lata_roja" else BLANCO
+        tipo_texto = jugador.tipo_basura.replace("_", " ").title()
+        screen.blit(font.render(f"Basura: {tipo_texto}", True, color_basura), (10, 35))
+    else:
+        screen.blit(font.render(f"Basura: NO", True, BLANCO), (10, 35))
+        
     screen.blit(font.render(f"Limpiezas: {sum(ocupadas)}/5", True, BLANCO), (10, 60))
     screen.blit(font.render(f"Puntaje: {puntaje}", True, BLANCO), (10, 85))
 
 def reset_player():
     jugador.rect.center = (ANCHO//2, ALTO-60)
     jugador.tiene_basura = False
+    jugador.tipo_basura = None
 
 def reiniciar_nivel():
     global puntaje
@@ -244,6 +276,7 @@ jugador = Cangrejo()
 player_group = pygame.sprite.Group(jugador)
 basura_group = pygame.sprite.Group()
 peligro_group = pygame.sprite.Group()
+# Los corales son invisibles - solo definimos sus rectángulos para la detección de colisiones
 meta_rects = [pygame.Rect(i*(ANCHO//5)+30, 0, TILE, TILE) for i in range(5)]
 ocupadas = [False]*5
 puntaje = 0
@@ -270,19 +303,21 @@ while True:
         hit = pygame.sprite.spritecollideany(jugador, basura_group)
         if hit:
             jugador.tiene_basura = True
+            jugador.tipo_basura = hit.tipo
+            puntaje += hit.puntos  # Puntos según el tipo: 2 para latas, 3 para bolsas
             basura_group.remove(hit)
-            puntaje += 50
 
     # ======== COLISION CON PELIGROS ========
     if not jugador.invulnerable and pygame.sprite.spritecollideany(jugador, peligro_group):
         # REAPARECER BASURA EN EL CENTRO SI LA LLEVABA
         if jugador.tiene_basura:
-            # Regenerar basura en el centro de la pantalla para que sea visible
-            basura_group.add(Basura(ANCHO//2, ALTO//2))
+            # Regenerar basura del mismo tipo en el centro
+            basura_group.add(Basura(ANCHO//2, ALTO//2, jugador.tipo_basura))
             jugador.tiene_basura = False
+            jugador.tipo_basura = None
 
         jugador.vidas -= 1
-        puntaje = max(0, puntaje - 100)
+        puntaje = max(0, puntaje - 5)  # Penalización reducida
 
         reset_player()
         jugador.hacer_invulnerable(60)
@@ -297,7 +332,7 @@ while True:
         if jugador.tiene_basura and not ocupadas[i] and jugador.rect.colliderect(rect):
             ocupadas[i] = True
             jugador.tiene_basura = False
-            puntaje += 200
+            jugador.tipo_basura = None
             reset_player()
 
     # ======== NIVEL COMPLETADO ========
@@ -311,6 +346,9 @@ while True:
     basura_group.draw(screen)
     peligro_group.draw(screen)
     player_group.draw(screen)
+    
+    # NOTA: Los corales son invisibles, no se dibujan
+    
     draw_hud()
 
     pygame.display.flip()
