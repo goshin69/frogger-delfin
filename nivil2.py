@@ -19,17 +19,6 @@ def get_file_path(filename):
             return path
     return None
 
-# ======== MUSICA ========
-try:
-    pygame.mixer.init()
-    musica_path = get_file_path(os.path.join("musica", "musica_level_2.mp3"))
-    if musica_path:
-        pygame.mixer.music.load(musica_path)
-        pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.7)
-except Exception as e:
-    print(f"No se pudo cargar la musica: {e}")
-
 # ======== CONFIGURACION ========
 ANCHO, ALTO = 1220, 740
 TILE = 64
@@ -69,7 +58,80 @@ def cargar_imagen(nombre_archivo, ancho=TILE, alto=TILE, color_placeholder=(150,
     
     return superficie
 
-# ======== CARGAR IMAGENES ========
+# ======== CARGAR IMAGENES DEL CÓMIC ========
+def cargar_pagina_comic(num_pagina):
+    return cargar_imagen(f"Intro2.jpeg", ANCHO, ALTO, (50, 120, 200))
+
+# ======== SECUENCIA DE CÓMIC ========
+def mostrar_comic():
+    num_paginas = 1 
+    
+    # Cargar páginas del cómic
+    paginas_comic = []
+    for i in range(1, num_paginas + 1):
+        pagina = cargar_pagina_comic(i)
+        paginas_comic.append(pagina)
+    
+    # Crear botón de skip
+    fuente_skip = pygame.font.SysFont(None, 36)
+    texto_skip = fuente_skip.render("Saltar (ESC)", True, BLANCO)
+    rect_skip = texto_skip.get_rect(topright=(ANCHO - 20, 20))
+    
+    # Mostrar cada página del cómic
+    pagina_actual = 0
+    duracion_pagina = 4000  # 4 segundos por página
+    tiempo_inicio_pagina = pygame.time.get_ticks()
+    
+    ejecutando = True
+    while ejecutando and pagina_actual < num_paginas:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_ESCAPE or evento.key == pygame.K_RETURN or evento.key == pygame.K_SPACE:
+                    ejecutando = False
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                # Verificar si se hizo clic en el botón de skip
+                if rect_skip.collidepoint(evento.pos):
+                    ejecutando = False
+                # Avanzar página al hacer clic en cualquier parte
+                else:
+                    pagina_actual += 1
+                    tiempo_inicio_pagina = pygame.time.get_ticks()
+        
+        # Avanzar página automáticamente después del tiempo establecido
+        tiempo_actual = pygame.time.get_ticks()
+        if tiempo_actual - tiempo_inicio_pagina > duracion_pagina:
+            pagina_actual += 1
+            tiempo_inicio_pagina = tiempo_actual
+        
+        # Dibujar página actual
+        if pagina_actual < num_paginas:
+            screen.blit(paginas_comic[pagina_actual], (0, 0))
+            
+            pygame.draw.rect(screen, (0, 0, 0, 150), rect_skip.inflate(20, 10), border_radius=5)
+            screen.blit(texto_skip, rect_skip)
+            
+            # Dibujar indicador de pagina
+            indicador_pagina = fuente_skip.render(f"{pagina_actual + 1}/{num_paginas}", True, BLANCO)
+            screen.blit(indicador_pagina, (ANCHO // 2 - indicador_pagina.get_width() // 2, ALTO - 50))
+        
+        pygame.display.flip()
+        clock.tick(60)
+
+# ======== MUSICA ========
+try:
+    pygame.mixer.init()
+    musica_path = get_file_path(os.path.join("musica", "musica_level_2.mp3"))
+    if musica_path:
+        pygame.mixer.music.load(musica_path)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.7)
+except Exception as e:
+    print(f"No se pudo cargar la musica: {e}")
+
+# ======== CARGAR IMAGENES DEL JUEGO ========
 img_cangrejo = cargar_imagen("cancrejo.png", 50, 50, (220, 60, 60))
 img_basura = cargar_imagen("bolsa de basura.png", 48, 48, (120, 120, 120))
 img_lata_azul = cargar_imagen("lata azul.png", 35, 45, AZUL_CLARO)
@@ -99,7 +161,7 @@ class Cangrejo(pygame.sprite.Sprite):
         super().__init__()
         self.image = img_cangrejo
         self.rect = self.image.get_rect(center=(ANCHO//2, ALTO-60))
-        self.vidas = 3
+        self.vidas = 5
         self.tiene_basura = False
         self.tipo_basura = None  # Para saber qué tipo de basura lleva
         self.invulnerable = False
@@ -177,7 +239,7 @@ def crear_basura_y_peligros():
     for y in [TILE*4, TILE*5]:
         for _ in range(2):
             x = random.randint(0, ANCHO)
-            vel = random.choice([-2, 2])
+            vel = random.choice([-5, 5])
             peligro_group.add(Peligro(x, y, vel))
 
 def draw_background():
@@ -205,7 +267,7 @@ def reset_player():
 def reiniciar_nivel():
     global puntaje
     reset_player()
-    jugador.vidas = 3
+    jugador.vidas = 5
     jugador.invulnerable = False
     puntaje = 0
     for i in range(5): 
@@ -276,10 +338,13 @@ jugador = Cangrejo()
 player_group = pygame.sprite.Group(jugador)
 basura_group = pygame.sprite.Group()
 peligro_group = pygame.sprite.Group()
-# Los corales son invisibles - solo definimos sus rectángulos para la detección de colisiones
+# Los corales son invisibles - solo definimos sus rectangulos para la detección de colisiones
 meta_rects = [pygame.Rect(i*(ANCHO//5)+30, 0, TILE, TILE) for i in range(5)]
 ocupadas = [False]*5
 puntaje = 0
+
+# ======== MOSTRAR CÓMIC AL INICIO ========
+mostrar_comic()
 crear_basura_y_peligros()
 
 # ======== BUCLE PRINCIPAL ========
@@ -304,7 +369,7 @@ while True:
         if hit:
             jugador.tiene_basura = True
             jugador.tipo_basura = hit.tipo
-            puntaje += hit.puntos  # Puntos según el tipo: 2 para latas, 3 para bolsas
+            puntaje += hit.puntos  
             basura_group.remove(hit)
 
     # ======== COLISION CON PELIGROS ========
@@ -347,7 +412,6 @@ while True:
     peligro_group.draw(screen)
     player_group.draw(screen)
     
-    # NOTA: Los corales son invisibles, no se dibujan
     
     draw_hud()
 

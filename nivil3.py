@@ -32,7 +32,7 @@ def get_file_path(filename):
 ANCHO, ALTO = 1220, 740
 FPS = 60
 TILE = 64
-TIEMPO_LIMITE = 200
+TIEMPO_LIMITE = 120
 
 # MODO VENTANA
 screen = pygame.display.set_mode((ANCHO, ALTO), pygame.RESIZABLE)
@@ -460,14 +460,6 @@ while ejecutando:
         buzo.hacer_invulnerable(60)
         buzo.puntaje = max(0, buzo.puntaje - 100)
         
-        # Si llevaba un animal, regenerarlo en posición visible
-        if buzo.lleva_animal:
-            animal_info = buzo.lleva_animal
-            # Crear una nueva instancia del animal en el centro
-            nuevo_animal = Animal(ANCHO//2, ALTO//2, animal_info)
-            animales.add(nuevo_animal)
-            buzo.lleva_animal = None
-        
         if buzo.vidas <= 0:
             mostrar_mensaje("Vuelve a intentarlo", 
                            f"Rescataste {buzo.total_rescatados} animales", ROJO)
@@ -475,6 +467,7 @@ while ejecutando:
         else:
             buzo.rect.center = (ANCHO//2, 48)
             buzo.hitbox.center = buzo.rect.center
+            buzo.lleva_animal = None
 
     if not buzo.lleva_animal:
         animal_colisionado = verificar_colision_animales()

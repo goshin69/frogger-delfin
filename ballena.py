@@ -39,6 +39,7 @@ YELLOW = (255, 255, 0)
 RED = (255, 50, 50)
 BROWN = (160, 110, 50)
 BLACK = (0, 0, 0)
+GRAY = (150, 150, 150)
 
 # ===========================
 # CARGA DE IMÁGENES
@@ -57,6 +58,12 @@ def load_img(name, size, color=RED):
     surf.fill(color)
     return surf
 
+# Cargar imágenes del cómic
+def load_comic_page(page_num):
+    # Cambia "comic1.png", "comic2.png", etc. por los nombres reales de tus páginas de cómic
+    return load_img(f"comic{page_num}.png", (WIDTH, HEIGHT), BLUE)
+
+# Cargar imágenes del juego
 dolphin_img          = load_img("delfin-fotor.png",  (60, 40), LIGHT_BLUE)
 dolphin_saved_img    = load_img("delfin-fotor.png",(60, 40), YELLOW)
 barrel_img           = load_img("bote de basura acostado.png", (45, 45), RED)
@@ -66,6 +73,71 @@ house_img            = load_img("Koral.png", (80, 60), GREEN)
 house_done_img       = load_img("Koral en casa.png", (80, 60), YELLOW)
 bg_img               = load_img("fondoDelfin.png", (WIDTH, HEIGHT), BLUE)
 
+# ===========================
+# SECUENCIA DE CÓMIC
+# ===========================
+def show_comic():
+    # Número de páginas del cómic (ajusta según tus necesidades)
+    num_pages = 1
+    
+    # Cargar páginas del cómic
+    comic_pages = []
+    for i in range(1, num_pages + 1):
+        page = load_img(f"Intro comic {i}.png", (WIDTH, HEIGHT), BLUE)
+        comic_pages.append(page)
+    
+    # Crear botón de skip
+    skip_font = pygame.font.SysFont(None, 36)
+    skip_text = skip_font.render("Saltar (ESC)", True, WHITE)
+    skip_rect = skip_text.get_rect(topright=(WIDTH - 20, 20))
+    
+    # Mostrar cada página del cómic
+    current_page = 0
+    page_duration = 4000  # 4 segundos por página
+    page_start_time = pygame.time.get_ticks()
+    
+    running = True
+    while running and current_page < num_pages:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Verificar si se hizo clic en el botón de skip
+                if skip_rect.collidepoint(event.pos):
+                    running = False
+                # Avanzar página al hacer clic en cualquier parte
+                else:
+                    current_page += 1
+                    page_start_time = pygame.time.get_ticks()
+        
+        # Avanzar página automáticamente después del tiempo establecido
+        current_time = pygame.time.get_ticks()
+        if current_time - page_start_time > page_duration:
+            current_page += 1
+            page_start_time = current_time
+        
+        # Dibujar página actual
+        if current_page < num_pages:
+            screen.blit(comic_pages[current_page], (0, 0))
+            
+            # Dibujar botón de skip
+            pygame.draw.rect(screen, (0, 0, 0, 150), skip_rect.inflate(20, 10), border_radius=5)
+            screen.blit(skip_text, skip_rect)
+            
+            # Dibujar indicador de página
+            page_indicator = skip_font.render(f"{current_page + 1}/{num_pages}", True, WHITE)
+            screen.blit(page_indicator, (WIDTH // 2 - page_indicator.get_width() // 2, HEIGHT - 50))
+        
+        pygame.display.flip()
+        clock.tick(60)
+
+# ===========================
+# MÚSICA
+# ===========================
 music_file = "Beetlejuice (NES) Music - Stage 01.mp3"
 music_path = get_file_path(music_file)
 
@@ -209,6 +281,9 @@ def pause_menu():
 # JUEGO PRINCIPAL
 # ===========================
 def main():
+    # Mostrar cómic al inicio
+    show_comic()
+    
     dolphin = Dolphin()
 
     obstacles = [Obstacle(random.choice(["barrel","log","oil"])) for _ in range(10)]
